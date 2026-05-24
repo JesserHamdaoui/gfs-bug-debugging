@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; min-height: 100vh; }
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav .brand { font-weight: bold; color: #6c63ff; font-size: 1.1rem; }
+        nav a { color: #6c63ff; text-decoration: none; margin-left: 1rem; font-size: 0.88rem; }
+        nav a:hover { text-decoration: underline; }
+        .container { max-width: 860px; margin: 2.5rem auto; padding: 0 1rem; }
+        h1 { color: #333; margin-bottom: 0.3rem; }
+        h2 { color: #333; font-size: 1.1rem; margin: 2rem 0 0.8rem; }
+        .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 2rem; }
+        .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+        .plan {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            border: 2px solid transparent;
+        }
+        .plan.featured { border-color: #6c63ff; }
+        .plan-name { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-bottom: 0.5rem; }
+        .plan-price { font-size: 2rem; font-weight: bold; color: #333; }
+        .plan-price span { font-size: 1rem; font-weight: normal; color: #888; }
+        .plan-desc { font-size: 0.88rem; color: #777; margin: 0.8rem 0 1.2rem; }
+        .plan ul { list-style: none; margin-bottom: 1.5rem; }
+        .plan ul li { font-size: 0.88rem; color: #555; padding: 0.3rem 0; }
+        .plan ul li::before { content: "✓ "; color: #6c63ff; font-weight: bold; }
+        .btn {
+            display: block; width: 100%; padding: 0.65rem;
+            border-radius: 6px; font-size: 0.95rem; cursor: pointer;
+            text-align: center; border: none; transition: background 0.2s;
+        }
+        .btn-primary { background: #6c63ff; color: white; }
+        .btn-primary:hover { background: #574fd6; }
+        .btn-outline { background: white; color: #6c63ff; border: 1.5px solid #6c63ff; }
+        .btn-outline:hover { background: #f3f2ff; }
+        .badge {
+            display: inline-block; background: #6c63ff; color: white;
+            font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 20px;
+            margin-left: 0.4rem; vertical-align: middle;
+        }
+        @media (max-width: 600px) { .plans { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <span class="brand">MyApp</span>
+        <div>
+            <span style="font-size:0.88rem;color:#666">{{ user }}</span>
+            <a href="/logout">Sign out</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Billing</h1>
+        <p class="subtitle">Choose a plan that works for you</p>
+        <div class="plans">
+            <div class="plan">
+                <div class="plan-name">Starter</div>
+                <div class="plan-price">$0 <span>/ mo</span></div>
+                <p class="plan-desc">For individuals getting started.</p>
+                <ul>
+                    <li>1 project</li>
+                    <li>5 GB storage</li>
+                    <li>Community support</li>
+                </ul>
+                <button class="btn btn-outline" disabled>Current plan</button>
+            </div>
+            <div class="plan featured">
+                <div class="plan-name">Pro <span class="badge">Popular</span></div>
+                <div class="plan-price">$12 <span>/ mo</span></div>
+                <p class="plan-desc">For professionals and small teams.</p>
+                <ul>
+                    <li>Unlimited projects</li>
+                    <li>50 GB storage</li>
+                    <li>Priority support</li>
+                </ul>
+                <button class="btn btn-primary" onclick="subscribe('pro')">Upgrade to Pro</button>
+            </div>
+            <div class="plan">
+                <div class="plan-name">Business</div>
+                <div class="plan-price">$49 <span>/ mo</span></div>
+                <p class="plan-desc">For growing teams and businesses.</p>
+                <ul>
+                    <li>Unlimited projects</li>
+                    <li>500 GB storage</li>
+                    <li>Dedicated support</li>
+                </ul>
+                <button class="btn btn-outline" onclick="subscribe('business')">Upgrade to Business</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function subscribe(plan) {
+            const req = () => fetch('/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ plan })
+            });
+            Promise.all([req(), req()]);
+        }
+    </script>
+</body>
+</html>

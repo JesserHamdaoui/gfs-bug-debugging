@@ -1,0 +1,5 @@
+.venv/
+.gfs/
+__pycache__/
+*.pyc
+app/app.db

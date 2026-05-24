@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .card {
+            background: white;
+            padding: 2.5rem 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 { color: #333; margin-bottom: 0.25rem; font-size: 1.6rem; }
+        .subtitle { color: #888; margin-bottom: 1.5rem; font-size: 0.9rem; }
+        label { display: block; font-size: 0.85rem; color: #555; margin-bottom: 0.3rem; }
+        input {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus { border-color: #6c63ff; }
+        button {
+            width: 100%;
+            padding: 0.7rem;
+            background: #6c63ff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover { background: #574fd6; }
+        .footer { text-align: center; margin-top: 1.2rem; font-size: 0.88rem; color: #666; }
+        .footer a { color: #6c63ff; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+        .alert {
+            background: #ffe0e0;
+            color: #c0392b;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Create account</h1>
+        <p class="subtitle">Sign up to get started</p>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+        <form method="POST">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="••••••••" required>
+            <button type="submit">Create account</button>
+        </form>
+        <div class="footer">
+            Already have an account? <a href="/signin">Sign in</a>
+        </div>
+    </div>
+</body>
+</html>

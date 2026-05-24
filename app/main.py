@@ -77,8 +77,8 @@ def subscribe():
             cur.execute("SELECT id FROM users WHERE email = %s", (session["user_email"],))
             user = cur.fetchone()
 
-            # BUG: check and insert are not atomic — a second concurrent request
-            # passes this check before the first one commits, creating duplicates
+            cur.execute("SELECT pg_advisory_xact_lock(%s)", (hash(f"{user['id']}-{period}"),))
+
             cur.execute(
                 "SELECT id FROM invoices WHERE user_id = %s AND period = %s",
                 (user["id"], period)
